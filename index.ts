@@ -1,9 +1,6 @@
 import express, { Application, Request, Response } from "express";
-import * as dotenv from "dotenv";
 import cors from 'cors'
-// import { insertCat } from "./src/api/v1/services/cat";
 import cats from "./src/api/v1/routes/cats";
-dotenv.config();
 
 const migrations = async () => {
   const knex = await import("./src/api/v1/services/db");
