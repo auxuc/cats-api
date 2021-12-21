@@ -1,6 +1,8 @@
 import express, { Application, Request, Response } from "express";
 import * as dotenv from "dotenv";
-import { insertCat } from "./src/api/v1/services/cat";
+import cors from 'cors'
+// import { insertCat } from "./src/api/v1/services/cat";
+import cats from "./src/api/v1/routes/cats";
 dotenv.config();
 
 const migrations = async () => {
@@ -15,18 +17,12 @@ migrations().catch((err) => {
 });
 
 const app: Application = express();
-const port = 3000;
+const port = 8000;
 
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.get("/", async (req: Request, res: Response): Promise<Response> => {
-  await insertCat();
-
-  return res.status(200).send({
-    message: "Hello World!",
-  });
-});
+app.use('/cats', cats)
 
 try {
   app.listen(port, (): void => {
