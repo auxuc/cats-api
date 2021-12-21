@@ -9,6 +9,12 @@ export type ICat = {
   location: string;
 };
 
+export type ILocation = {
+  location: string;
+  name: string;
+  uuid: string
+};
+
 export const insertCat = async (data: Partial<ICat>): Promise<string> => {
   return db("cat").insert(data).returning("uuid");
 };
@@ -28,4 +34,8 @@ export const updateCat = async (cat: Partial<ICat>): Promise<ICat> => {
 
 export const deleteCat = async (uuid: string): Promise<ICat> => {
   return db("cat").where({ uuid }).del();
+};
+
+export const getLocationCats = async (): Promise<ILocation[]> => {
+  return db("cat").select("name", "uuid").distinct("location")
 };
